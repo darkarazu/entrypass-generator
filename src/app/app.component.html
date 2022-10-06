@@ -1,0 +1,91 @@
+<div id="app-container">
+
+  <div class="legend" fxLayout="column" fxLayoutGap="1rem" fxLayoutAlign="center end">
+    <button mat-raised-button color="primary" (click)="toggleLegend()">Mostrar Leyenda</button>
+    <div style="background-color: mediumpurple; color: white; padding: 1rem; width: 398px;" *ngIf="showLegend">
+      Se conforma de 5 partes
+      <ul>
+        <li>1. Tu codigo especial de evento (máximo 4 caracteres).</li>
+        <li>2. Dos digitos que representan el año.</li>
+        <li>3. Dos digitos que representan el mes.</li>
+        <li>4. Dos digitos que representan la semana del año.</li>
+        <li>5. Dos letras que representan el dia de la semana.</li>
+      </ul>
+    </div>
+    <div style="background-color: mediumseagreen; color: white; padding: 1rem; width: 398px;" *ngIf="showLegend">
+      <p>Compuesto por un codigo autogenerado a pares, es decir, solo dos entradas a la vez tendran este mismo codigo.</p>
+    </div>
+    <div style="background-color: mediumturquoise; color: white; padding: 1rem; width: 398px;" *ngIf="showLegend">
+      <p>Es el numero de la entrada el cual se auto-incrementa a partir del numero proporcionado ( máximo 10 digitos).</p>
+    </div>
+    <div style="color: black; padding: 1rem; width: 398px;" *ngIf="showLegend">
+      <p>Debido al hecho de que se generan entradas con codigos a pares (dos entradas con mismo codigo interno), solo se pueden generar un numero par de entradas. Ejemplo si quieres 5 entradas obtienes 6 entradas.</p>
+    </div>
+  </div>
+
+  <div class="app" fxLayout="column" fxFlex="80%"  fxLayoutAlign="center">
+
+    <div fxLayout="row wrap" [formGroup]="form"  fxLayoutGap="2rem">
+      <mat-form-field appearance="outline">
+        <mat-label>Fecha del evento</mat-label>
+        <input matInput [matDatepicker]="picker" formControlName="date">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+  
+  
+      <mat-form-field appearance="outline" style="width: 215px;">
+        <mat-label>Codigo Especial de Evento</mat-label>
+        <input matInput formControlName="codigo">
+        <!-- <mat-hint>Hint</mat-hint> -->
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" style="width: 215px;">
+        <mat-label>Numeración Inicial</mat-label>
+        <input matInput formControlName="inicioNumero">
+        <!-- <mat-hint>Hint</mat-hint> -->
+      </mat-form-field>
+
+      <button mat-raised-button color="primary" (click)="createTestCode()" [disabled]="form.invalid || loading">Probar</button>
+
+      <mat-spinner *ngIf="loading"></mat-spinner>
+  
+      <!-- <button mat-icon-button  [for]="picker"><mat-icon>calendar_today</mat-icon></button> -->
+    </div>
+    <div fxLayout="row" class="codigo">
+  
+      <h1 style="width: fit-content; min-width: fit-content;"><span class="code1">{{part1Codigo}}</span> - <span class="code2">{{part2Codigo}}</span> - <span class="code3">{{part3Codigo}}</span></h1>  
+  
+    </div>
+    <div fxLayout="column" class="generated-codes" fxLayoutGap="2rem">
+
+      <div fxLayout="row" [formGroup]="form2"  fxLayoutGap="2rem">
+        <mat-form-field appearance="outline" style="width: 215px;">
+          <mat-label>Cuantas entradas?</mat-label>
+          <input matInput formControlName="howMany">
+          <!-- <mat-hint>Hint</mat-hint> -->
+        </mat-form-field>
+        <button mat-raised-button color="primary" (click)="generateCodes()" [disabled]="form.invalid || form2.invalid || !testedCode">Generar!</button>
+        <button mat-raised-button color="primary" (click)="download()" *ngIf="finished">Descargar</button>
+      </div>
+  
+  
+      <div fxLayout="column" class="generated-codes" fxLayoutGap="1rem">
+
+        <div *ngFor="let code of codes" fxLayout="column" fxLayoutAlign="center start" fxLayoutGap="0.5rem">
+          <img src="{{url + (code.a + '-' + code.b + '-' + code.c)}}">
+          <h4 style="width: fit-content; min-width: fit-content;"><span class="code1">{{code.a}}</span> - <span class="code2">{{code.b}}</span> - <span class="code3">{{code.c}}</span></h4>
+          <mat-divider style="width: 100%;"></mat-divider>
+        </div>
+
+      </div>
+
+    </div>
+
+    
+
+
+  </div>
+
+
+</div>
