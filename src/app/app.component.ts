@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, FormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import * as moment from 'moment';
 import { Guid } from 'guid-typescript';
 
@@ -16,8 +16,8 @@ interface EntryCode {
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  form: FormGroup;
-  form2: FormGroup;
+  form: UntypedFormGroup;
+  form2: UntypedFormGroup;
   title = 'entrypass-generator';
 
   part1Codigo = 'AAAA';
@@ -38,7 +38,7 @@ export class AppComponent {
 
   regex = /^\d+$/;
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: UntypedFormBuilder) {
     this.form = this.fb.group({
       date: ['', [Validators.required]],
       codigo: ['', [Validators.required, Validators.maxLength(4)]],
